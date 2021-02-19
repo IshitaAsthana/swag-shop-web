@@ -3,6 +3,7 @@ import './App.css';
 import HttpService from '../services/http-service';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Product from '../product/product';
 
 
 const http = new HttpService();
@@ -10,9 +11,25 @@ const http = new HttpService();
 class App extends React.Component {
 
   constructor(props) {
-      super(props);
-      http.getProducts();
-    }
+      super(props); // only if parent class exists
+
+      //Bind functions
+      // this.loadData = this.loadData.bind(this);
+      //not needed after updates
+
+      this.loadData();
+  }
+
+  loadData = () => {
+
+    http.getProducts().then(products => {
+      console.log(products);
+    },err => {
+
+    });
+
+  }
+
   render() {
     return (
       <div className="App">
@@ -21,18 +38,10 @@ class App extends React.Component {
           <h2>
           Hello World!
           </h2>
-          <p>
-            Edit <code>src/App/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
+        <div className="App-main">
+          <Product />
+        </div>
       </div>
     );
   }
