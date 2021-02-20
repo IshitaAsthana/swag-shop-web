@@ -13,6 +13,7 @@ class App extends React.Component {
   constructor(props) {
       super(props); // only if parent class exists
 
+      this.state = {products:[]};   //empty array initially
       //Bind functions
       // this.loadData = this.loadData.bind(this);
       //not needed after updates
@@ -21,16 +22,36 @@ class App extends React.Component {
   }
 
   loadData = () => {
-
-    http.getProducts().then(products => {
-      console.log(products);
+    var self = this;
+    http.getProducts()
+    .then(data => {
+      // console.log("loading");
+      // if(self._ismounted === false)
+      // self.state = {products:[]};
+      self.setState({products:data});
+      // console.log(data);
+      // console.log(this.state.products);
+      // self.render();
     },err => {
-
+      console.log("error");
     });
 
   }
 
+  productList = () => {
+    // console.log(this.state.products);
+    const list = this.state.products.map((product) =>
+      <div className="col-sm-4" key={product._id}>
+        <Product title={product.title} price={product.price} imgUrl={product.imgUrl}/>
+      </div>
+    );
+    // console.log(list);
+    return (list);
+  }
+
   render() {
+    // console.log("rendering");
+    // console.log(this.productList);
     return (
       <div className="App">
         <header className="App-header">
@@ -39,8 +60,10 @@ class App extends React.Component {
           Hello World!
           </h2>
         </header>
-        <div className="App-main">
-          <Product />
+        <div className="container App-main">
+          <div className="row">
+            {this.productList()}
+          </div>
         </div>
       </div>
     );
