@@ -1,8 +1,8 @@
 .product {
-  width: 20rem;
+  max-width: 20rem;
 
 }
 
 .product img {
-  max-height: 15rem;
+  max-height: 10rem;
 }
